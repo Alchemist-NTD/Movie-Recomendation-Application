@@ -1,0 +1,7 @@
+__pycache__/
+data
+env
+db.sqlite3
+runtime.log
+logs
+node_modules
