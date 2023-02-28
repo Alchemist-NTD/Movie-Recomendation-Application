@@ -41,4 +41,6 @@ sudo chmod +x /usr/local/bin/docker-compose
 
     docker compose up
 ```
-- Enter the site 0.0.0.0:8000/admin to access administrator site
+- Enter the site [Admin](0.0.0.0:8000/admin) to access administrator site
+- Enter the site [Backend](0.0.0.0:8000/) to access backend site
+- Enter the site [Frontend](0.0.0.0:3000/) to access frontend site
