@@ -3,12 +3,12 @@ FROM node:19.3.0-alpine3.16
 # RUN mkdir /app
 # COPY ./ /app
 WORKDIR /app
-COPY . .
+# COPY . .
 # install dependencies
 
-RUN npm install
+RUN npm install --save react react-dom react-scripts
 # RUN npm run build
-
+COPY . .
 # This for dev purpose
 
 EXPOSE 3000
