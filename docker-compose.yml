@@ -3,7 +3,7 @@ version: '3'
 services:
   db:
     image: postgres:latest
-    container_name: movielens_db
+    container_name: movie_db
     volumes:
       - ./data/db/:/var/lib/postgresql/data
     restart: always
@@ -13,7 +13,7 @@ services:
       - POSTGRES_PASSWORD=1
 
   backend:
-    container_name: movielens_backend
+    container_name: movie_backend
     build: ./Backend
     command: "python manage.py runserver 0.0.0.0:8000"
     volumes:
@@ -30,17 +30,11 @@ services:
     restart: always
 
   frontend:
-    container_name: movielens_frontend
+    container_name: movie_webapp
     build: ./Frontend
     volumes:
-      - ./Frontend/react_movie:/app
-    # expose:
-    #   - 8080
-    # ports:
-    #   - "8080:80"
-    # this stage in dev part
-    command: npm start
+      - ./Frontend/movie_webapp:/app
+      - /app/node_modules
     ports:
       - 3000:3000
-    #
     restart: always
