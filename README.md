@@ -41,6 +41,6 @@ sudo chmod +x /usr/local/bin/docker-compose
 
     docker compose up
 ```
-- Enter the site [Admin](0.0.0.0:8000/admin) to access administrator site
-- Enter the site [Backend](0.0.0.0:8000/) to access backend site
-- Enter the site [Frontend](0.0.0.0:3000/) to access frontend site
+- Enter the site <a href='http://localhost:8000/admin'>Admin</a> to access administrator site
+- Enter the site <a href='http://localhost:8000/'>Backend</a> to access backend site
+- Enter the site <a href='http://localhost:3000/'>Admin</a> to access frontend site
