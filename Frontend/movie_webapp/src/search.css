@@ -1,0 +1,30 @@
+.widget-search {
+    width: 325px;
+    outline: none;
+    background-color: #033137;
+    border-radius: 100px;
+    color: #9f9f9f;
+    display: inline-block;
+    padding-top: 8px;
+    padding-right: 40px;
+    padding-left: 15px;
+    padding-bottom: 8px;
+    box-shadow: inset 1px 1px 1px rgb(0 0 0 / 40%), 1px 1px 0 rgb(255 255 255 / 15%);
+
+}
+#searchkeyword {
+    color:red;
+    font-family: inherit;
+    width: 250px;
+    font-size: inherit;
+    margin-left: -12px;
+    
+}
+#searchsubmit {
+    color: red;
+    width: 32px;
+    height: 32px;
+    display: inline-block;
+    margin-left: -36px ;
+    box-sizing: border-box;
+}
