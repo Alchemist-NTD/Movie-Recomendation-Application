@@ -85,8 +85,12 @@ WSGI_APPLICATION = 'movie_manager.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'db',
+        'USER': 'duy',
+        'PASSWORD': '1',
+        'HOST': 'movie_db',
+        'PORT': '5432',
     }
 }
 

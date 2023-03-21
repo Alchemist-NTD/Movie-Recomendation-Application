@@ -12,7 +12,6 @@ class UserSerializer(serializers.ModelSerializer):
         }
 
     def create(self, validated_data):
-        print(validated_data)
         password = validated_data.pop('password', None)
         
         instance = self.Meta.model(**validated_data)
@@ -32,3 +31,14 @@ class MovieSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'genres': {'required': False}
         }
+
+    def create(self, validated_data):
+        print(validated_data)
+        genres = validated_data.pop('genres', None)
+        
+        
+        
+        instance = self.Meta.model(**validated_data)
+        
+        instance.save()
+        return instance
