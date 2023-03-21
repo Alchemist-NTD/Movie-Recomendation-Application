@@ -43,4 +43,11 @@ sudo chmod +x /usr/local/bin/docker-compose
 ```
 - Enter the site <a href='http://localhost:8000/admin'>Admin</a> to access administrator site
 - Enter the site <a href='http://localhost:8000/'>Backend</a> to access backend site
-- Enter the site <a href='http://localhost:3000/'>Admin</a> to access frontend site
+- Enter the site <a href='http://localhost:3000/'>Frontend</a> to access frontend site
+
+```
+psql -h hostname -U username -f {SQL script file name}
+
+psql -h hostname -d databasename -U username -f {SQL script file name}
+
+```
