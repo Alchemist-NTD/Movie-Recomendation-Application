@@ -46,6 +46,11 @@ sudo chmod +x /usr/local/bin/docker-compose
 - Enter the site <a href='http://localhost:3000/'>Frontend</a> to access frontend site
 
 ```
+
+docker compose exec movie_db bash
+
+psql -U duy -d db
+
 psql -h hostname -U username -f {SQL script file name}
 
 psql -h hostname -d databasename -U username -f {SQL script file name}
