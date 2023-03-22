@@ -1,4 +1,5 @@
 __pycache__/
+*.py[cod]
 */data/*
 env
 db.sqlite3
@@ -28,4 +29,6 @@ node_modules
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-migrations/__pycache__/
+**/__pycache__
+*.pyc
+migrations/__pycache__
