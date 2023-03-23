@@ -45,14 +45,23 @@ sudo chmod +x /usr/local/bin/docker-compose
 - Enter the site <a href='http://localhost:8000/'>Backend</a> to access backend site
 - Enter the site <a href='http://localhost:3000/'>Frontend</a> to access frontend site
 
+### Create Admin account
+- Run Docker sub temporary service
+```
+docker compose exec backend bash
+
+python manage.py createsuperuser
+<type username>
+<type password>
 ```
 
-docker compose exec movie_db bash
+### Import SQL script to database container
+- Move the .sql scripts into Data/initial inside project folder
+- Run Docker sub temporary service
 
-psql -U duy -d db
+```
+docker compose exec db bash
 
-psql -h hostname -U username -f {SQL script file name}
-
-psql -h hostname -d databasename -U username -f {SQL script file name}
+psql -U duy -d db -f /home/<filename>.sql
 
 ```

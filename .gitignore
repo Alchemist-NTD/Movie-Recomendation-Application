@@ -32,3 +32,4 @@ yarn-error.log*
 **/__pycache__
 *.pyc
 migrations/__pycache__
+Data/db

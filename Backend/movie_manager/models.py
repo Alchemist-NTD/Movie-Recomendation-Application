@@ -6,10 +6,10 @@ class Movie(models.Model):
     id = models.AutoField(primary_key=True, default=0)
     title = models.CharField(max_length=512, default='')
     genres = models.CharField(max_length=1024, default='')
-    poster = models.ImageField(upload_to='./movie_manager/material/poster/', default='./movie_manager/material/poster/1.jpg')
+    poster = models.ImageField(upload_to='./movie_manager/material/poster/', default='./movie_manager/material/poster/0.jpg')
     
     def __str__(self):
-        return self.id + ' : ' + self.title
+        return str(self.id) + ' : ' + self.title
     
     
 class User(AbstractUser):
@@ -20,7 +20,7 @@ class User(AbstractUser):
     REQUIRED_FIELDS = []
 
     def __str__(self):
-        return self.id + ' : ' + self.username
+        return str(self.id) + ' : ' + self.username
     
     
 class Rating(models.Model):
