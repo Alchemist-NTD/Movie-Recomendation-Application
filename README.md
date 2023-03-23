@@ -65,3 +65,9 @@ docker compose exec db bash
 psql -U duy -d db -f /home/<filename>.sql
 
 ```
+
+### Resolve any Problems with Permission
+```
+sudo chown $USER:$USER -R .
+
+```
