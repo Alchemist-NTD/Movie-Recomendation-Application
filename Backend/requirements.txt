@@ -6,3 +6,4 @@ django-environ
 PyJWT>=2.6
 djangorestframework-simplejwt
 django-filter
+Pillow
