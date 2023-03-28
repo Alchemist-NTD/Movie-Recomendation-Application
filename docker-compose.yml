@@ -18,7 +18,7 @@ services:
   backend:
     container_name: movie_backend
     build: ./Backend
-    command: "python manage.py runserver 0.0.0.0:8000"
+    command: sh -c "service cron start && python manage.py runserver"
     volumes:
       - ./Backend:/src
     ports:
