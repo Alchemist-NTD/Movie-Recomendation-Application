@@ -1,22 +1,15 @@
 import logo from './logo.svg';
 import './App.css';
-
-import { SearchBar } from './search_bar';
-import { Login } from './login.jsx';
+import { SearchBar } from './components/SearchBar/SearchBar';
+import { LoginForm } from './pages/Login/Login';
+import NavBar from './components/NavBar/NavBar';
 
 function App() {
   return (
     <div className="App">
-      <div class="bg-auto md:bg-contain">
-        
-      </div>
-      <SearchBar>
-        SearchBar
-      </SearchBar>
-
-      <Login>Hello</Login>
-      
-    </div>
+      <NavBar />
+      <SearchBar />
+  </div>
   );
 }
 
