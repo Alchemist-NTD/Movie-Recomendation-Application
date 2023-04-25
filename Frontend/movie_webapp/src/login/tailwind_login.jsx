@@ -1,5 +1,5 @@
 import "./tailwind.css";
-
+import axios from 'axios';
 
 export const Demo = () => (
     <div className="flex justify-between items-center py-4 bg-blue-900">
@@ -38,7 +38,7 @@ export const LoginForm = () => (
                 <img class="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo">
 
                 </img>
-                Flowbite  
+                Movie Web  
             </a>
             <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                 <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -79,10 +79,42 @@ export const LoginForm = () => (
     </section>
 );
 
-async function clickSignIn() {
-    let email = document.getElementById("email");
-    let password = document.getElementById("password");
-    
+const clickSignIn = async () => {
+    let email = document.getElementById("email").value;
+    let password = document.getElementById("password").value;
+
+    let payload = new URLSearchParams (
+        {
+            username: email,
+            password: password
+        }
+    )
+
+    const api = axios.create({
+        baseURL: "http://localhost:8000/",
+        timeout: 10000,
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        },
+      });
+
+    try {
+        let response = await axios.post("login", payload)
+        if (response.ok) {
+            window.alert("connect with axios")
+            console.log(response.data)
+        } else {
+            window.alert("fail connect axios")
+        }
+        
+    } catch (error) {
+        window.alert("failed")
+        window.alert(error)
+        //console.log("login failed")
+    }
+
 };
 
 
