@@ -1,5 +1,7 @@
 import "./tailwind.css";
 import axios from 'axios';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+
 
 export const Demo = () => (
     <div className="flex justify-between items-center py-4 bg-blue-900">
@@ -48,7 +50,7 @@ export const LoginForm = () => (
                     <form class="space-y-4 md:space-y-6" action="#">
                         <div>
                             <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
-                            <input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required="">
+                            <input type="text" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required="">
                             </input>
                         </div>
                         <div>
@@ -79,40 +81,42 @@ export const LoginForm = () => (
     </section>
 );
 
+let refreshToken = localStorage.getItem('refresh');
+let accessToken = localStorage.getItem('access');
+
 const clickSignIn = async () => {
-    let email = document.getElementById("email").value;
+    let username = document.getElementById("email").value;
     let password = document.getElementById("password").value;
 
-    let payload = new URLSearchParams (
+    let payload = 
         {
-            username: email,
+            username: username,
             password: password
         }
-    )
-
-    const api = axios.create({
-        baseURL: "http://localhost:8000/",
-        timeout: 10000,
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-          'Access-Control-Allow-Origin': '*'
-        },
-      });
+    
 
     try {
-        let response = await axios.post("login", payload)
-        if (response.ok) {
-            window.alert("connect with axios")
-            console.log(response.data)
-        } else {
-            window.alert("fail connect axios")
-        }
+        let response = await axios.post(
+            "http://localhost:8000/login", payload, 
+            {
+                    headers: {
+                    'Authorization': 'Bearer ${refreshToken}'
+                }
+            }
+            
+        )
+        //window.alert(response.data.ref)
+        console.log(response.data)
+        refreshToken = response.data.refresh;
+        // let accessToken = response.data.access;
+        window.alert(refreshToken)
+        window.alert(accessToken)
         
     } catch (error) {
-        window.alert("failed")
+        //window.alert("failed")
         window.alert(error)
         //console.log("login failed")
+        console.log(error)
     }
 
 };
