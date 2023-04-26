@@ -27,8 +27,8 @@ urlpatterns = [
     path(r'movie/destroy/<int:pk>', MovieDetail.as_view(), name="delete_movie"),
     path(r'movie/list/<int:pk>', MovieList.as_view(), name="list_movie"),
     
-    # path(r'movie/filter/')
+    path(r'movie/filter/', MovieFilterList.as_view(), name="list_filter_movie"),
     path(r'matrix/retrieve/<int:pk>', MatrixRetrieveView.as_view(), name="retrieve_matrix"),
     # path(r'matrix/create', MatrixCreateView.as_view(), name="retrieve_matrix"),
-    
+    path(r'user/retrieve/<int:pk>', UserRetrieve.as_view(), name="user_retrieve")
 ]

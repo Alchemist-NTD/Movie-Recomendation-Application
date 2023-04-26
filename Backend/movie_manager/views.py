@@ -3,12 +3,16 @@ from .serializers import *
 from rest_framework import generics, status
 from rest_framework.response import Response
 from django_filters import rest_framework as filters
-# from ..filters import *
+from .filters import *
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .settings import MATRIX
 import base64
 
 
+class UserRetrieve(generics.RetrieveAPIView):
+    queryset = Movie.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
 
 class MovieList(generics.ListCreateAPIView):
     queryset = Movie.objects.all()
@@ -27,10 +31,10 @@ class MovieView(generics.RetrieveAPIView):
     serializer_class = MovieSerializer
 
 
-class MovieFilter(generics.ListAPIView):
+class MovieFilterList(generics.ListAPIView):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
-    filter_backends = []
+    filterset_class = MovieFilter
     
 
 class MatrixRetrieveView(generics.RetrieveAPIView):
