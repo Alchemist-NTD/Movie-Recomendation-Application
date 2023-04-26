@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.contrib.postgres.fields import ArrayField
 
 
 class Movie(models.Model):
@@ -27,3 +28,7 @@ class Rating(models.Model):
     movie = models.ForeignKey(Movie, default=1, to_field='id', on_delete=models.CASCADE)
     user = models.ForeignKey(User, default=1, to_field='id', on_delete=models.CASCADE)
     rating = models.IntegerField(default=0)
+    
+class Matrix(models.Model):
+    matrix = models.BinaryField(blank=True, null=True)
+    name = models.CharField(null=False, default="", max_length=128)

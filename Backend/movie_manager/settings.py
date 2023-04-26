@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-s5mugu-gu#6_ml$k5x_o&0a#msrsp!2=(i0$a@dty)x6vr3s30
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_crontab',
+    'django.contrib.postgres',
     'movie_manager',
     'rest_framework',
     'corsheaders',
@@ -54,6 +56,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -167,3 +170,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = "movie_manager.User"
 
 CORS_ALLOW_CREDENTIALS = True
+
+MATRIX = 1
+
+CRONJOBS = [
+    ('*/1 * * * *', 'movie_manager.scheduler.my_scheduled_job')
+]
