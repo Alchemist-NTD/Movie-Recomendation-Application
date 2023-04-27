@@ -1,23 +1,32 @@
 import logo from './logo.svg';
 import './App.css';
+import { Demo , LoginForm} from './login/tailwind_login';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+
+import { SearchBar } from './search_bar';
+import { Login } from './login.jsx';
+import { Header } from './header/header';
+import { HomePage } from './page/HomePage.jsx';
+import { LoginPage } from './page/LoginPage.jsx';
+import {Routes} from 'react-router-dom'
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header text-3xl font-bold underline">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div class="bg-auto md:bg-contain">
+        
+        <Routes>
+          <Route path="/home" element={<HomePage></HomePage>}>
+          </Route>
+          <Route path="/login" element={<LoginPage></LoginPage>}>
+          </Route>
+        </Routes>  
+      </div>
+        
+      
+      
+      
+      
     </div>
   );
 }
