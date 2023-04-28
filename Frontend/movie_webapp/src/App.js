@@ -13,8 +13,9 @@ import {Routes} from 'react-router-dom'
 function App() {
   return (
     <div className="App">
+      {/* <p>Hello</p> */}
       <div class="bg-auto md:bg-contain">
-        
+        {/* <HomePage></HomePage> */}
         <Routes>
           <Route path="/home" element={<HomePage></HomePage>}>
           </Route>
