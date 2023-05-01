@@ -3,8 +3,12 @@ import axios from 'axios';
 function LoginPage() {
     let refreshToken = localStorage.getItem('refresh');
     let accessToken = localStorage.getItem('access');
+
+    //const { setUser } = useContext(null);
+
     const navigate = useNavigate()
     const clickSignIn = async (event) => {
+
         event.preventDefault()
 
         let username = document.getElementById("email").value;
@@ -26,14 +30,19 @@ function LoginPage() {
                     }
                 }
             )
-            //window.alert(response.data.ref)
+            
             console.log(response.data)
             refreshToken = response.data.refresh;
-            // let accessToken = response.data.access;
+            accessToken = response.data.access;
+
             window.alert(refreshToken)
-            // window.alert(accessToken)
+            
             if (response) {
+                localStorage.setItem('access', accessToken);
+                localStorage.setItem('user', username);
+                //window.alert(typeof(accessToken))
                 navigate("/home")
+
             }
             
         } catch (error) {
@@ -45,6 +54,7 @@ function LoginPage() {
     };
     
     return (
+        
         <section class="bg-black-1000 dark:bg-gray-900">
         <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
             <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
