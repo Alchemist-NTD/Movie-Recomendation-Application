@@ -1,3 +1,5 @@
+import React from 'react';
+
 export const SearchBar = () => (
     <section class="bg-gray-50 dark:bg-gray-900 flex items-center">
         <div class="max-w-screen-xl px-4 mx-auto lg:px-12 w-full">

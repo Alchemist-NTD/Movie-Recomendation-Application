@@ -6,9 +6,11 @@ from django_filters import rest_framework as filters
 from .filters import *
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .settings import MATRIX
-import base64, AllowAny
-import os, AllowAny
+import base64
 import os
+from django.http import FileResponse, HttpResponse
+import sys
+
 class UserRetrieve(generics.RetrieveAPIView):
     queryset = Movie.objects.all()
     serializer_class = UserSerializer
@@ -23,7 +25,7 @@ class MovieList(generics.ListCreateAPIView):
 class MovieDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     
 
 class MovieView(generics.RetrieveAPIView):
@@ -47,18 +49,20 @@ class cfRecView(generics.ListCreateAPIView):
 
 
 class ImageView(generics.RetrieveAPIView):
+    permission_classes = [AllowAny]
+    
     def get(self, request, *args, **kwargs):
         filename = kwargs.get('pk')
-
-        file_path = f'./material/poster/{filename}.jpg'
-        print(file_path)
+        file_path = f'/src/movie_manager/material/poster/{filename}.jpg'
         if os.path.exists(file_path):
-            with open(file_path, 'rb') as fh:
-                response = FileResponse(fh.read(), content_type='image/jpeg')
-                return response
+            with open(file_path, 'rb') as f:
+                response = HttpResponse(f.read(), content_type='image/jpeg')
+                response['Content-Disposition'] = 'attachment; filename="{}.jpg"'.format(filename)
+            return response
         else:
-            # print("ok")
-            return Response({'error': 'The requested image was not found.'}, status=404)
+            return Response({
+                'error': f'The requested shit thing image was not found.{os.path.abspath(__file__)}'
+                }, status=404)
 
 
 class cbRecView(generics.ListAPIView):
@@ -67,7 +71,7 @@ class cbRecView(generics.ListAPIView):
     def get_queryset(self):
         #def convertsting(path):
         movie_id = self.request.get_querams.get('movie_id', None)
-        with open('./movie_manger/models/data.txt', 'r') as file:
+        with open('./Backend/movie_manger/models/data.txt', 'r') as file:
             lines = file.readlines()
             for line in lines:
             # Chuyển sang dict
@@ -113,22 +117,6 @@ class cfRecView(generics.ListCreateAPIView):
                 return [items_id[x] for x in np.argsort(pred_val)]
             rec_id = predict(usr_id)
             return Movie.objects.filter(id__in=rec_id)
-
-
-
-class ImageView(generics.RetrieveAPIView):
-    def get(self, request, *args, **kwargs):
-        filename = kwargs.get('pk')
-
-        file_path = f'./material/poster/{filename}.jpg'
-        print(file_path)
-        if os.path.exists(file_path):
-            with open(file_path, 'rb') as fh:
-                response = FileResponse(fh.read(), content_type='image/jpeg')
-                return response
-        else:
-            # print("ok")
-            return Response({'error': 'The requested image was not found.'}, status=404)
 
 
 class cbRecView(generics.ListAPIView):
