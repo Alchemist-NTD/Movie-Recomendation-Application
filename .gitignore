@@ -33,3 +33,7 @@ yarn-error.log*
 *.pyc
 migrations/__pycache__
 Data/db
+
+data.txt
+caigiday.pkl
+model_recommed.pkl

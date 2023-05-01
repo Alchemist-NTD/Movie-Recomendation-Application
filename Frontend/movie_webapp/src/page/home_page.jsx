@@ -12,7 +12,7 @@ export const MyComponentSearchBar = () => {
 
   return (
     <div>
-      <SearchBar onSearch={handleSearch} />
+      {/* <SearchBar onSearch={handleSearch} /> */}
       {/* Render the rest of your component */}
       <MovieSearch></MovieSearch>
     </div>
