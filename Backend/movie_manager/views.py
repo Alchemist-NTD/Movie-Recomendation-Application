@@ -25,7 +25,7 @@ class MovieList(generics.ListCreateAPIView):
 class MovieDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     
 
 class MovieView(generics.RetrieveAPIView):
@@ -34,7 +34,7 @@ class MovieView(generics.RetrieveAPIView):
 
 class cfRecView(generics.ListCreateAPIView):
     serializer_class = MovieSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     def get_queryset(self):
         with open('./movie_manger/models/model_recommed.pkl', 'rb') as f:
             model = pickle.load(f)
@@ -67,7 +67,7 @@ class ImageView(generics.RetrieveAPIView):
 
 class cbRecView(generics.ListAPIView):
     serializer_class = MovieSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     def get_queryset(self):
         #def convertsting(path):
         movie_id = self.request.get_querams.get('movie_id', None)
@@ -106,7 +106,7 @@ class MatrixRetrieveView(generics.RetrieveAPIView):
 #         return Response({})
 class cfRecView(generics.ListCreateAPIView):
     serializer_class = MovieSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     def get_queryset(self):
         with open('./movie_manger/models/model_recommed.pkl', 'rb') as f:
             model = pickle.load(f)
@@ -121,7 +121,7 @@ class cfRecView(generics.ListCreateAPIView):
 
 class cbRecView(generics.ListAPIView):
     serializer_class = MovieSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     def get_queryset(self):
         #def convertsting(path):
         movie_id = self.request.get_querams.get('movie_id', None)
@@ -137,3 +137,7 @@ class cbRecView(generics.ListAPIView):
                 return Movie.objects.filter(title__in=list_title)
                     
                 
+class RateMovieView(generics.CreateAPIView):
+    serializer_class = RatingSerializer
+    permission_classes = [IsAuthenticated]
+    queryset = Rating.objects.all()
