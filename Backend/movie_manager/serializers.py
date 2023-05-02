@@ -39,6 +39,28 @@ class MovieSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
     
+    
+class RatingSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Rating
+        fields = '__all__'
+        extra_kwargs = {}
+        
+    def create(self, validated_data):
+        movie = validated_data['movie']
+        user = validated_data['user']
+        rate_set = Rating.objects.filter(movie=movie, user=user)
+        
+        if rate_set.exists():
+            rate_obj = rate_set.first()
+            rate_obj.rating = validated_data['rating']
+        else:
+            rate_obj = self.Meta.model(**validated_data)
+
+        rate_obj.save()
+        return rate_obj
+            
 class MatrixSerializer(serializers.ModelSerializer):
     matrix_response = serializers.SerializerMethodField()
     

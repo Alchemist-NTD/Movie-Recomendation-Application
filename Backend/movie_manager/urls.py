@@ -35,4 +35,5 @@ urlpatterns = [
     path(r'poster/<int:pk>', ImageView.as_view(), name="get_img"),
     path(r'movie/content-based/', ImageView.as_view(), name="get_img"),
     path(r'movie/content-based/', ImageView.as_view(), name="get_img"),
+    path(r'movie/rating/', RateMovieView.as_view(), name="rate_movie"),
 ]
