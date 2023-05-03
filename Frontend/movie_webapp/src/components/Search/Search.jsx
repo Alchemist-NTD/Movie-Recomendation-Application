@@ -26,7 +26,7 @@ const Search = props => {
   return (
     <form onSubmit={activateSearch}>
     <input
-      className='text-xl text-black'
+      className='text-black px-4 mx-4 text-2xl'
       type='text'
       name='SearchTerm'
       placeholder='Type the name of film...'
