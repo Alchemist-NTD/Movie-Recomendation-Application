@@ -15,12 +15,14 @@ const FilmList = () => {
   const [selectedFilm, setSelectedFilm] = useState(null);
   const { FilmId }= useParams();
   const [filteredFilms, setFilteredFilms] = useState([])
-
+  const url = 'http://localhost:8000/movie/list/1'
   useEffect(() => {
+    
     const getFilms = async () => {
       try {
+        
         const res = await axios.get(
-          'http://localhost:8000/movie/list/1',
+          url,
           {
             headers: {
               'Authorization': `Bearer ${access_token}`,
@@ -29,6 +31,7 @@ const FilmList = () => {
         )
         // console.log(access_token)
         setFilms(res.data)
+        setFilteredFilms(res.data)
         setTotalItems(res.data.length)
         // console.log(totalItems)
       } catch (error) {
@@ -37,7 +40,7 @@ const FilmList = () => {
     }
 
     getFilms()
-  }, [])
+  }, [url])
 
 
   const handleFilmClick = (movie) => {
@@ -77,8 +80,10 @@ const FilmList = () => {
   return (
     
     <div>
+      <div className='flex py-8 justify-center'>
+        <Search searchFunc={handleSearchTerm}/>
+      </div>
       
-      <Search searchFunc={handleSearchTerm}/>
       {FilmId ? (
         <div>
           <div>{FilmId}</div>
@@ -88,7 +93,7 @@ const FilmList = () => {
           {/* <div>{films[FilmId-1].poster} </div> */}
         </div>
         ) : (
-          <div>
+          <div className='object-contain'>
           <div className='grid grid-cols-2 md:grid-cols-4 gap-10 mb-12 items-center justify-center'>
             {itemsToShow.map (film => (
               <div key={film.id}>

@@ -45,16 +45,16 @@ const NavBar = () => {
                     </>
                 ) :
                  (
-                    <>
-                        <div> 
+                    <div>
+                        <div className='flex my-2 '> 
                             {
                                 localStorage.getItem('user')
                             }
                         </div>
-                        <button onClick={handleClickLogout}>
+                        <button className="btn mr-2 " onClick={handleClickLogout}>
                             LogOut
                         </button>
-                    </>
+                    </div>
                  )
                 
             }
