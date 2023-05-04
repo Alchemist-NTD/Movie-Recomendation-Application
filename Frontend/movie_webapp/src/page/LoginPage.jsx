@@ -27,7 +27,7 @@ function LoginPage() {
                 "http://localhost:8000/login", payload, 
                 {
                         headers: {
-                        'Authorization': 'Bearer ${refreshToken}'
+                        'Authorization': `Bearer ${refreshToken}`
                     }
                 }
             )
@@ -44,10 +44,10 @@ function LoginPage() {
                 //window.alert(typeof(accessToken))
 
                 let response = await axios.post(
-                    "http://localhost:8000/user/retrieve/${username}", payload, 
+                    `http://localhost:8000/user/retrieve/${username}`, payload, 
                     {
                             headers: {
-                            'Authorization': 'Bearer ${refreshToken}'
+                            'Authorization': `Bearer ${refreshToken}`
                         }
                     }
                 )

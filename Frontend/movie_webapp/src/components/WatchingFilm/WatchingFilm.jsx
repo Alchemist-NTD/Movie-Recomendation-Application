@@ -1,40 +1,52 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
-const WatchingFilm = props => {
-
-  const film = props.filmProps
+const access_token = localStorage.getItem('access');
+const WatchingFilm = ({ id }) => {
 
   const [playing, setPlaying] = useState(false);
-//   const [Filminfo, setFilminfo] = useState(null);
-    const handlePlay = () => {
-    setPlaying(true);
-  };
+  const [movie, setMovie] = useState(null);
 
-  const handlePause = () => {
-    setPlaying(false);
-  };
+  const url = `http://localhost:8000/movie/retrieve/${id}`
 
-//   useEffect(() => {
-//     const getFilminfo = async () => {s
-//       try {
-//         const res = await axios.get(
-//           'http://localhost:8000/movie/retrieve/${filmId}',
-//         )
-//         setFilminfo(res.data)
-//       } catch (error) {
-//         console.log(error.message)
-//       }
-//     }
+  useEffect(() => {
+    const getMovie = async () => {
+      try {
+        const res = await axios.get(
+          url,
+          {
+            headers: {
+              'Authorization': `Bearer ${access_token}`,
+            },
+          }
+        )
+        setMovie(res.data)
+        console.log(res.data)
+      } catch (error) {
+        console.log(error.message)
+      }
+    }
+    getMovie()
+  }, [url])
 
-//     getFilminfo()
-//   })
-  
 //   console.log(Filminfo)
   return (
+    // <div>
+    //   quan
+    // </div>
     <div>
-        <img src={film.poster} alt="shtty project :)" />
-        <h4>{film.title}</h4>
+      {
+        movie === null ? (
+          <div>
+            ko co phim
+          </div>
+        ):(
+          <div>
+             <img src={'http://localhost:8000/poster/' + movie.id} className='flex h-64 w-56 md:w-fit md:h-fit justify-center items-center' />
+            <h4>{movie.title}</h4>
+          </div>
+        )
+      }
     </div>
     )
 }

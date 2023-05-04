@@ -20,9 +20,11 @@ const NavBar = () => {
                 Movie Film 
             </div>
             <div className="grid md:grid-cols-3 justify-center items-center text-center text-xl">
-                <div className="md:col-span-1 cursor-pointer py-2">
-                    Home
-                </div>
+                <Link to='/home'>
+                    <div className="md:col-span-1 cursor-pointer py-2">
+                        Home
+                    </div>
+                </Link>
                 <div className="md:col-span-1 cursor-pointer py-2">
                     Latest
                 </div>
