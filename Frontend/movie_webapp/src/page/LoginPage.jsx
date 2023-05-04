@@ -42,6 +42,20 @@ function LoginPage() {
                 localStorage.setItem('access', accessToken);
                 localStorage.setItem('user', username);
                 //window.alert(typeof(accessToken))
+
+                let response = await axios.post(
+                    "http://localhost:8000/user/retrieve/${username}", payload, 
+                    {
+                            headers: {
+                            'Authorization': 'Bearer ${refreshToken}'
+                        }
+                    }
+                )
+
+                if (response) {
+                    localStorage.setItem('user_id', response.data.id);
+                }
+
                 navigate("/home")
 
             }

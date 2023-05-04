@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from movie_manager.models import *
-from django.contrib.auth.models import User
 import numpy as np
 import base64
 

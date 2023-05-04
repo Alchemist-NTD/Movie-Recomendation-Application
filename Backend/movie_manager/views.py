@@ -6,15 +6,21 @@ from django_filters import rest_framework as filters
 from .filters import *
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .settings import MATRIX
-import base64
-import os
 from django.http import FileResponse, HttpResponse
-import sys
+import sys, pickle, os, base64
 
 class UserRetrieve(generics.RetrieveAPIView):
-    queryset = Movie.objects.all()
+    queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
+    lookup_field = 'username'
+    def get_object(self):
+        username = self.kwargs.get('username')
+        try:
+            return User.objects.get(username=username)
+        except User.DoesNotExist:
+            return status.HTTP_404_NOT_FOUND
+    
 
 class MovieList(generics.ListCreateAPIView):
     queryset = Movie.objects.all()
@@ -70,7 +76,7 @@ class cbRecView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
     def get_queryset(self):
         #def convertsting(path):
-        movie_id = self.request.get_querams.get('movie_id', None)
+        movie_id = self.request.GET.get('movie_id', None)
         with open('./Backend/movie_manger/models/data.txt', 'r') as file:
             lines = file.readlines()
             for line in lines:
@@ -139,5 +145,5 @@ class cbRecView(generics.ListAPIView):
                 
 class RateMovieView(generics.CreateAPIView):
     serializer_class = RatingSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny | IsAuthenticated]
     queryset = Rating.objects.all()

@@ -30,7 +30,7 @@ urlpatterns = [
     path(r'movie/filter/', MovieFilterList.as_view(), name="list_filter_movie"),
     path(r'matrix/retrieve/<int:pk>', MatrixRetrieveView.as_view(), name="retrieve_matrix"),
     # path(r'matrix/create', MatrixCreateView.as_view(), name="retrieve_matrix"),
-    path(r'user/retrieve/<int:pk>', UserRetrieve.as_view(), name="user_retrieve"),
+    path(r'user/retrieve/<str:username>', UserRetrieve.as_view(), name="user_retrieve"),
 
     path(r'poster/<int:pk>', ImageView.as_view(), name="get_img"),
     path(r'movie/content-based/', ImageView.as_view(), name="get_img"),
