@@ -8,6 +8,7 @@ class Movie(models.Model):
     title = models.CharField(max_length=512, default='')
     genres = models.CharField(max_length=1024, default='')
     poster = models.ImageField(upload_to='./movie_manager/material/poster/', default='./movie_manager/material/poster/0.jpg')
+    trailer = models.CharField(max_length=512, default='')
     
     def __str__(self):
         return str(self.id) + ' : ' + self.title

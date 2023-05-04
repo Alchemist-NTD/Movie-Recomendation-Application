@@ -11,8 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
-import environ
-import os
+import os, pickle, environ
 from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -40,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_crontab',
+    # 'django_crontab',
     'django.contrib.postgres',
     'movie_manager',
     'rest_framework',
@@ -111,8 +110,8 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=10),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=10),
     'AUTH_HEADER_TYPES': ('Bearer', 'JWT'),
     'ALGORITHM': 'HS256',
     'SIGNING_KEY': SECRET_KEY,
@@ -174,6 +173,17 @@ CORS_ALLOW_CREDENTIALS = True
 
 MATRIX = 1
 
-CRONJOBS = [
-    ('*/1 * * * *', 'movie_manager.scheduler.my_scheduled_job')
-]
+# CRONJOBS = [
+#     ('*/1 * * * *', 'movie_manager.scheduler.my_scheduled_job')
+# ]
+
+CF_PATH = '/src/movie_manager/models/model_recommed.pkl'
+def load_cf(CF_PATH):
+    with open(CF_PATH, 'rb') as f:
+        model = pickle.load(f)
+        if model != None:
+            return model
+    return None
+        
+COLLABORATIVE_FILTER = load_cf(CF_PATH)
+# COLLABORATIVE_FILTER = None

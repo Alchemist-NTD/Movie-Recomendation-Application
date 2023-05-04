@@ -59,23 +59,3 @@ class RatingSerializer(serializers.ModelSerializer):
 
         rate_obj.save()
         return rate_obj
-            
-class MatrixSerializer(serializers.ModelSerializer):
-    matrix_response = serializers.SerializerMethodField()
-    
-    class Meta:
-        model = Matrix
-        fields = ['id', 'name', 'matrix_response']
-        extra_kwargs = {
-            'name': {'required': False},
-            'matrix_response': {'required': False},
-        }
-        
-    def get_matrix_response(self, obj):
-        # print(np.array([[1, 2, 3], [3, 4, 5]]).tobytes() == obj.matrix)
-        # print(obj.matrix)
-        # my_buffer = obj.matrix.encode('latin-1')
-        # if len(my_buffer) % 4 != 0:
-        #     my_buffer += b'\x00' * (4 - len(my_buffer) % 4)
-        # print(np.frombuffer(obj.matrix, dtype=np.int64))
-        return np.frombuffer(obj.matrix, dtype=np.int64).reshape(2, 3)

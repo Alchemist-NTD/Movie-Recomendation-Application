@@ -7,5 +7,6 @@ PyJWT==2.6
 djangorestframework-simplejwt
 django-filter
 Pillow
-django-crontab
+# django-crontab
 numpy
+scikit-surprise
