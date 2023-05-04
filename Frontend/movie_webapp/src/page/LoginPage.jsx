@@ -21,7 +21,7 @@ function LoginPage() {
 
       console.log(response.data);
 
-      window.alert(response.data.access);
+    //   window.alert(response.data.access);
 
       if (response) {
         localStorage.setItem("access", response.data.access);
