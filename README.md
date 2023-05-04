@@ -62,7 +62,7 @@ python manage.py createsuperuser
 ```
 docker compose exec db bash
 
-psql -U duy -d db -f /home/<filename>.sql
+psql -U duy -d db -f /home/query_21032023.sql
 
 ```
 

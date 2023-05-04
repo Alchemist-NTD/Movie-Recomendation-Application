@@ -6,9 +6,10 @@ from django_filters import rest_framework as filters
 from .filters import *
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .settings import MATRIX
-from django.http import FileResponse, HttpResponse
-import sys, pickle, os, base64
-from django.shortcuts import get_object_or_404
+from django.http import HttpResponse
+import os, time
+import numpy as np
+from .settings import COLLABORATIVE_FILTER
 
 
 class UserRetrieve(generics.RetrieveAPIView):
@@ -22,19 +23,19 @@ class UserRetrieve(generics.RetrieveAPIView):
             return User.objects.get(username=username)
         except User.DoesNotExist:
             return status.HTTP_404_NOT_FOUND
-    
+
 
 class MovieList(generics.ListCreateAPIView):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
     permission_classes = [IsAuthenticated]
-    
+
 
 class MovieDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
     permission_classes = [IsAuthenticated]
-    
+
 
 class MovieView(generics.RetrieveAPIView):
     queryset = Movie.objects.all()
@@ -62,68 +63,59 @@ class MovieFilterList(generics.ListAPIView):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
     filterset_class = MovieFilter
-    
-
-class MatrixRetrieveView(generics.RetrieveAPIView):
-    permission_classes = [AllowAny]
-    serializer_class = MatrixSerializer
-    queryset = Matrix.objects.all()
-    
-    
-# class MatrixCreateView(generics.CreateAPIView):
-#     permission_classes = [AllowAny]
-#     serializer_class = MatrixSerializer
-#     queryset = Matrix.objects.all()
-    
-#     def post(self, request):
-        
-#         Matrix.objects.create(**{'matrix': np.array([[1, 2, 3], [3, 4, 5]]).tobytes()})
-#         return Response({})
 
 
 class cfRecView(generics.ListCreateAPIView):
     serializer_class = MovieSerializer
     permission_classes = [IsAuthenticated]
+    
     def get_queryset(self):
-        with open('/src/movie_manager/models/model_recommed.pkl', 'rb') as f:
-            model = pickle.load(f)
-            usr_id = self.request.user.id
-            def predict(self, user_id):
-                items_id = Movie.objects.values_list('id', flat=True)
-                pred_val = np.numpy([model.predict(user_id, i).est for i in items_id])
-                return [items_id[x] for x in np.argsort(pred_val)]
+        if COLLABORATIVE_FILTER != None:
+            usr_id = self.kwargs['user_id']
+            def predict(user_id):
+                items_id = list(Movie.objects.values_list('id', flat=True))
+                pred_val = np.array([COLLABORATIVE_FILTER.predict(user_id, i).est for i in items_id])
+                sorted_weight = np.argsort(pred_val)
+                return [items_id[x] for x in sorted_weight][-20:]
+            start = time.time()
             rec_id = predict(usr_id)
+            end = time.time()
+            exec_time = end - start
+            print(f"prediction time take {exec_time} seconds")
             return Movie.objects.filter(id__in=rec_id)
 
 
 class cbRecView(generics.ListAPIView):
     serializer_class = MovieSerializer
-    permission_classes = [AllowAny | IsAuthenticated]
+    permission_classes = [IsAuthenticated]
+    
     def get_queryset(self):
-        #def convertsting(path):
-        movie_id = self.request.query_params.get('movie_id', None)
+        movie_id = self.kwargs['movie_id']
+        print(f"movie id is {movie_id}")
         with open('/src/movie_manager/models/data.txt', 'r') as file:
-            lines = file.readlines()
-            for line in lines:
-                dict_data = eval(line)
-                if movie_id not in dict_data:
+            for line in file:
+                try:
+                    dict_data = eval(line)
+                    if movie_id != next(iter(dict_data)):
+                        continue
+                    file.close()
+                    list_title = [value.split('|') for value in dict_data.values()][0][0::2]
+                    return Movie.objects.filter(title__in=list_title)
+                except Exception as e:
                     continue
-                list_title = [value.split('|') for value in dict_data.values()][0::2]
-                file.close()
-                return Movie.objects.filter(title__in=list_title)
-                    
-                
+
+
 class RateMovieView(generics.CreateAPIView):
     serializer_class = RatingSerializer
     permission_classes = [IsAuthenticated]
     queryset = Rating.objects.all()
-    
-    
+
+
 class RetrieveRateMovieView(generics.RetrieveAPIView):
     serializer_class = RatingSerializer
-    permission_classes = [AllowAny | IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     queryset = Rating.objects.all()
-    
+
     def get_object(self):
         rate_set = Rating.objects.filter(user=self.kwargs['user'], movie=self.kwargs['movie'])
         if rate_set.exists():
