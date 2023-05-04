@@ -6,6 +6,7 @@ import { SearchBar } from '../components/SearchBar/Searchbar.jsx';
 import FilmList from '../components/FilmList/FilmList.jsx';
 // import { useContext } from 'react';
 import {Outlet} from 'react-router-dom'
+import Header from '../components/Header/header.jsx';
 export const HomePage = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -23,6 +24,7 @@ export const HomePage = () => {
       
       {/* <SearchBar onSearch={handleSearch} /> */}
       <NavBar></NavBar>
+      <Header></Header>
       {/* <SearchBar></SearchBar> */}
       {/* Render the rest of your component */}
       <FilmList></FilmList>

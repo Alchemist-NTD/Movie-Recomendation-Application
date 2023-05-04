@@ -11,6 +11,8 @@ import { HomePage } from './page/HomePage.jsx';
 import { LoginPage } from './page/LoginPage.jsx';
 import {Routes} from 'react-router-dom'
 import FilmList from './components/FilmList/FilmList';
+import VideoPlayer from './components/VideoPlay/videoplay';
+import VideoPlayPage from './page/VideoPlayPage';
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
             </Route> */}
           </Route>
           <Route path="/login" element={<LoginPage></LoginPage>}>
+          </Route>
+          <Route path="/film" element={<VideoPlayPage></VideoPlayPage>}>
           </Route>
         </Routes>  
       </div>

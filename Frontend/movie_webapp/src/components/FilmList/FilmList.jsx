@@ -86,14 +86,14 @@ const FilmList = () => {
       
       {FilmId ? (
         <div>
-          <div>{FilmId}</div>
+          <div className="grid grid-cols-2 gap-4 py-16">{FilmId}</div>
           <WatchingFilm filmProps={selectedFilm} key={selectedFilm.id} />
           {/* <img src = {films[FilmId].poster} /> */}
 
           {/* <div>{films[FilmId-1].poster} </div> */}
         </div>
         ) : (
-          <div className='object-contain'>
+          <div className='object-contain bg-gradient-to-br from-gray-800 to-gray-900'>
           <div className='grid grid-cols-2 md:grid-cols-4 gap-10 mb-12 items-center justify-center'>
             {itemsToShow.map (film => (
               <div key={film.id}>
@@ -106,9 +106,9 @@ const FilmList = () => {
             ))}
           </div>
           <div className=' flex justify-center my-2'>
-              <button className='btn mx-2' onClick={handlePrevPage}>Previous Page </button>
+              <button className='bg-blue-800 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full btn mx-2' onClick={handlePrevPage}>Previous Page </button>
               <h4 className='flex justify-center my-1 text-center text-black text-2xl font-bold'>Page {currentPage}</h4>
-              <button className='btn mx-2' onClick={handleNextPage}>Next Page</button>
+              <button className='bg-blue-800 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full btn mx-2' onClick={handleNextPage}>Next Page</button>
             </div>
           </div>
         )} 
