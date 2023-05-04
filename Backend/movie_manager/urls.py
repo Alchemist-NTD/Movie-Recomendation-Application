@@ -33,7 +33,8 @@ urlpatterns = [
     path(r'user/retrieve/<str:username>', UserRetrieve.as_view(), name="user_retrieve"),
 
     path(r'poster/<int:pk>', ImageView.as_view(), name="get_img"),
-    path(r'movie/content-based/', ImageView.as_view(), name="get_img"),
-    path(r'movie/content-based/', ImageView.as_view(), name="get_img"),
+    path(r'movie/recommender/content/', ImageView.as_view(), name="get_cb_filter"),
+    path(r'movie/recommender/collaborative/', ImageView.as_view(), name="get_cf"),
     path(r'movie/rating/', RateMovieView.as_view(), name="rate_movie"),
+    path(r'movie/rating/retrieve/<int:user>/<int:movie>', RetrieveRateMovieView.as_view(), name="retrieve_rate"),
 ]
