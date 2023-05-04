@@ -8,6 +8,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from .settings import MATRIX
 from django.http import FileResponse, HttpResponse
 import sys, pickle, os, base64
+from django.shortcuts import get_object_or_404
 
 class UserRetrieve(generics.RetrieveAPIView):
     queryset = User.objects.all()
@@ -145,5 +146,19 @@ class cbRecView(generics.ListAPIView):
                 
 class RateMovieView(generics.CreateAPIView):
     serializer_class = RatingSerializer
+    permission_classes = [IsAuthenticated]
+    queryset = Rating.objects.all()
+    
+    
+class RetrieveRateMovieView(generics.RetrieveAPIView):
+    serializer_class = RatingSerializer
     permission_classes = [AllowAny | IsAuthenticated]
     queryset = Rating.objects.all()
+    
+    def get_object(self):
+        filter_kwargs = {
+            'user': self.kwargs['user'],
+            'movie': self.kwargs['movie']
+        }
+        obj = get_object_or_404(self.queryset, **filter_kwargs)
+        return obj
