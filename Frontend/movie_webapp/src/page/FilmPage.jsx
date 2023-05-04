@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link, Outlet } from "react-router-dom";
 import NavBar from "../components/NavBar/NavBar";
 import axios from "axios";
-
 const access_token = localStorage.getItem("access");
 const user_id = localStorage.getItem("user_id");
 
@@ -12,46 +11,27 @@ const FilmPage = () => {
   const [rate, setRate] = useState(0);
   const [numRate, setNumRate] = useState(0);
   let url = `http://localhost:8000/movie/retrieve/${id}`;
+
   useEffect(() => {
     const getFilm = async () => {
       try {
-        const res = await axios.get(url, {
+        const film_res = await axios.get(url, {
           headers: {
             Authorization: `Bearer ${access_token}`,
           },
         });
-        // console.log(access_token)
-        setFilm(res.data);
-        // console.log(totalItems)
-      } catch (error) {
-        console.log("error error.......");
-        console.log(error.message);
-      }
-    };
+        console.log(`film: ${film_res.data}`);
+        setFilm(film_res.data);
 
-    getFilm();
-  }, [url]);
+        const film_id = film_res.data.id;
+        console.log(`film_id: ${film_id}`);
+        console.log(`user_id: ${user_id}`);
 
-  const onChangeRate = (score) => {
-    if (numRate === 0) {
-      setRate(score);
-      console.log(score);
-    }
-  };
-  const ConFirmRate = async (score) => {
-    if (numRate === 0) {
-      setRate(score);
-      setNumRate(numRate + 1);
-      console.log(film.id);
-      console.log(user_id);
-      
-      let payload = {
-        movie: film.id,
-        user: user_id,
-        rating: rate,
-      };
-      try {
-        const res = await axios.post(
+        let payload = {
+          movie: film_id,
+          user: user_id,
+        };
+        const rate_res = await axios.post(
           "http://localhost:8000/movie/rating/",
           payload,
           {
@@ -60,10 +40,70 @@ const FilmPage = () => {
             },
           }
         );
-        console.log(res.data);
+        console.log(`rate_res: ${rate_res.data}`);
+        setRate(rate_res.data);
       } catch (error) {
+        console.log("error to get film.......");
         console.log(error.message);
       }
+    };
+
+    // const getRating = async () => {
+    //   const user_id = localStorage.getItem("user_id");
+    //   let payload = {
+    //     movie: film.id,
+    //     user: user_id,
+    //   };
+    //   try {
+    //     const res = await axios.post(
+    //       "http://localhost:8000/movie/rating/",
+    //       payload,
+    //       {
+    //         headers: {
+    //           Authorization: `Bearer ${access_token}`,
+    //         },
+    //       }
+    //     );
+    //     console.log(res.data);
+    //     setRate(res.data.rating)
+    //   } catch (error) {
+    //     console.log(error.message);
+    //   }
+    // };
+
+    getFilm();
+    // getRating();
+  }, [url]);
+
+  const onChangeRate = (score) => {
+    setRate(score);
+    console.log(score);
+  };
+  const ConFirmRate = async (score) => {
+    const user_id = localStorage.getItem("user_id");
+    setRate(score);
+    setNumRate(numRate + 1);
+    console.log(film.id);
+    console.log(user_id);
+
+    let payload = {
+      movie: film.id,
+      user: user_id,
+      rating: rate,
+    };
+    try {
+      const res = await axios.post(
+        "http://localhost:8000/movie/rating/",
+        payload,
+        {
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
+        }
+      );
+      console.log(res.data);
+    } catch (error) {
+      console.log(error.message);
     }
   };
 
@@ -94,15 +134,20 @@ const FilmPage = () => {
       {film === null ? (
         <div>ko co phim</div>
       ) : (
-        <div className="my-16 py-16">
-          <img
-            src={"http://localhost:8000/poster/" + film.id}
-            className="flex h-64 w-56 md:w-fit md:h-fit justify-center items-center"
-          />
-          <div className=" flex my-4 justify-start items-center w-56 md:w-fit">
+        <div>
+          <div className=" flex my-4 justify-center items-center w-56 md:w-fit">
             {film.title}
           </div>
-          <div className="flex items-center">
+          {/* <Youtube videoId={videoId} /> */}
+          <iframe
+            width="560"
+            height="315"
+            src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+            frameborder="0"
+            allowfullscreen
+            className="flex justify-center items-center"
+          />
+          <div className="flex justify-center items-center">
             {rating_stars}
             <div>
               {numRate != 0 ? (
