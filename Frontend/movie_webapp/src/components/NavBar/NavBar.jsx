@@ -8,7 +8,9 @@ const NavBar = () => {
     //window.alert("click")
 
     localStorage.setItem("access", "");
-    localStorage.setItem("user", "");
+    localStorage.setItem("username", "");
+    localStorage.setItem("user_id", "");
+
     navigate("/login");
   }
 
@@ -20,10 +22,10 @@ const NavBar = () => {
         </div>
         <div className="grid md:grid-cols-3 justify-center items-center text-center text-xl">
           <Link to="/home">
-            <div className="md:col-span-1 cursor-pointer py-2">Home</div>
+            <div className="md:col-span-1 cursor-pointer py-1">Home</div>
           </Link>
-          <div className="md:col-span-1 cursor-pointer py-2">Latest</div>
-          <div className="md:col-span-1 cursor-pointer py-2">Genre</div>
+          <div className="md:col-span-1 cursor-pointer py-1">Latest</div>
+          <div className="md:col-span-1 cursor-pointer py-1">Genre</div>
         </div>
       </div>
       <div className="flex justify-center md:justify-end">
@@ -38,7 +40,7 @@ const NavBar = () => {
           </>
         ) : (
           <div>
-            <div className="flex my-2 ">{localStorage.getItem("username")}</div>
+            <div className="flex mr-2 ">{localStorage.getItem("username")}</div>
             <button className="btn mr-2 " onClick={handleClickLogout}>
               LogOut
             </button>

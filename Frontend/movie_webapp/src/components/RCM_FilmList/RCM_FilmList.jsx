@@ -7,17 +7,17 @@ import Search from "../Search/Search";
 
 // localStorage.setItem('access_token', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgyNjY2MDY4LCJpYXQiOjE2ODI1Nzk2NjgsImp0aSI6IjRmMDFmNWY0MDk4NTQxNjdiMTk0MmIyOTZjMmRlNGQzIiwidXNlcl9pZCI6MTI5OTI1fQ.RCyOks6N-puaN_lv4y_un2DoKJ-lwF5nP7O58Ew7dNI"); // sẽ set ở login
 const access_token = localStorage.getItem("access");
-const FilmList = () => {
+const RCM_FilmList = ({RCM_FilmList_path}) => {
   const [films, setFilms] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(20);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
   const [totalItems, setTotalItems] = useState(0);
   // const [selectedFilm, setSelectedFilm] = useState(null);
   const [selectedFilmId, setSelectedFilmId] = useState(null);
   // const { FilmId }= useParams();
   const [filteredFilms, setFilteredFilms] = useState([]);
   
-  const url = "http://localhost:8000/movie/list/1";
+  const url = RCM_FilmList_path;
   useEffect(() => {
     const getFilms = async () => {
       try {
@@ -106,7 +106,7 @@ const FilmList = () => {
         <Search searchFunc={handleSearchTerm} />
       </div>
       <div className="object-contain">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-6 mb-12 items-center justify-center">
           {itemsToShow.map((film) => (
             <div key={film.id}>
               <Link
@@ -134,4 +134,4 @@ const FilmList = () => {
   );
 };
 
-export default FilmList;
+export default RCM_FilmList;
