@@ -6,6 +6,7 @@ import { SearchBar } from "../components/SearchBar/Searchbar.jsx";
 import FilmList from "../components/FilmList/FilmList.jsx";
 // import { useContext } from 'react';
 import { Outlet } from "react-router-dom";
+import RCM_FilmList from "../components/RCM_FilmList/RCM_FilmList.jsx";
 export const HomePage = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -24,6 +25,10 @@ export const HomePage = () => {
       {/* <SearchBar></SearchBar> */}
       {/* Render the rest of your component */}
       <FilmList></FilmList>
+      <p className="flex my-16 mx-4 justify-start text-4xl font-bold font-cyan-50 uppercase ">
+        Film for you 
+      </p>
+      <RCM_FilmList />
       {/* <MovieSearch></MovieSearch> */}
       <Outlet />
     </div>
