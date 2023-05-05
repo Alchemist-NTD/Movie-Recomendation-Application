@@ -1,12 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { useParams, Link, Outlet } from "react-router-dom";
+import React, { useEffect, useState,  } from "react";
+import { useParams, Link, Outlet, useNavigate, useLocation } from "react-router-dom";
 import NavBar from "../components/NavBar/NavBar";
 import axios from "axios";
+import RCM_FilmList from "../components/RCM_FilmList/RCM_FilmList";
+import FilmItem from "../components/FilmItem/FilmItem";
 const access_token = localStorage.getItem("access");
 const user_id = localStorage.getItem("user_id");
 
 const FilmPage = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
+  const location = useLocation(); 
   const [film, setFilm] = useState(null);
   const [rate, setRate] = useState(0);
   const [ratePermit, setRatePermit] = useState(false);
@@ -14,6 +18,10 @@ const FilmPage = () => {
   let url = `http://localhost:8000/movie/retrieve/${id}`;
 
   useEffect(() => {
+    // console.log(location.pathname)
+    const lote = location.pathname.split("/")[2]
+    console.log(lote)
+    // const real_id = 
     const getData = async () => {
       try {
         const film_res = await axios.get(url, {
@@ -30,7 +38,7 @@ const FilmPage = () => {
 
       try {
         const res = await axios.get(
-          `http://localhost:8000/movie/rating/retrieve/${user_id}/${id}`,
+          `http://localhost:8000/movie/rating/retrieve/${user_id}/${lote}`,
           {
             headers: {
               Authorization: `Bearer ${access_token}`,
@@ -54,7 +62,7 @@ const FilmPage = () => {
 
       try {
         const rcm_res = await axios.get(
-        `http://localhost:8000/movie/recommender/content/${id}`,
+        `http://localhost:8000/movie/recommender/content/${lote}`,
         {
           headers: {
             Authorization: `Bearer ${access_token}`,
@@ -112,6 +120,12 @@ const FilmPage = () => {
     }
   };
 
+  const handleFilmClick  = (id) => {
+
+    navigate(`/home/${id}`)
+    window.location.reload()
+  }
+
   const rating_stars = [];
   for (let i = 1; i <= 10; i++) {
     rating_stars.push(
@@ -147,7 +161,7 @@ const FilmPage = () => {
             <iframe
               width='100%'
               height='920'
-              src="https://www.youtube.com/embed/fjCmRE03Nqg"
+              src={film.trailer}
               frameBorder="0"
               allowFullScreen
               className="w-1080 h-920"
@@ -174,6 +188,20 @@ const FilmPage = () => {
               <div />
             )}
           </div> */}
+           <p className="mx-4 my-1 text-4xl font-semibold">The films that you may like</p>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-6 mb-12 mx-16">
+
+          {rcmFilm.map((film) => (
+            <div key={film.id}>
+              
+                <div onClick={() => handleFilmClick(film.id)}>
+                  <FilmItem filmProps={film} key={film.id} />
+                </div>
+                
+              {/* </Link> */}
+            </div>
+          ))}
+        </div>
         </div>
       )}
     </div>

@@ -10,7 +10,7 @@ const access_token = localStorage.getItem("access");
 const FilmList = () => {
   const [films, setFilms] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(20);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
   const [totalItems, setTotalItems] = useState(0);
   // const [selectedFilm, setSelectedFilm] = useState(null);
   const [selectedFilmId, setSelectedFilmId] = useState(null);
@@ -19,6 +19,7 @@ const FilmList = () => {
   
   const url = "http://localhost:8000/movie/list/1";
   useEffect(() => {
+    console.log(access_token)
     const getFilms = async () => {
       try {
         const res = await axios.get(url, {
@@ -106,12 +107,12 @@ const FilmList = () => {
         <Search searchFunc={handleSearchTerm} />
       </div>
       <div className="object-contain">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-6 mb-12 mx-16">
           {itemsToShow.map((film) => (
             <div key={film.id}>
               <Link
                 to={`/home/${film.id}`}
-                onClick={() => handleFilmClick(film.id)}
+                // onClick={() => handleFilmClick(film.id)}
               >
                 <FilmItem filmProps={film} key={film.id} />
               </Link>
