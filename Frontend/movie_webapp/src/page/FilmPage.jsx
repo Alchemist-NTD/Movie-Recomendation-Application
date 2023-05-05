@@ -1,5 +1,11 @@
-import React, { useEffect, useState,  } from "react";
-import { useParams, Link, Outlet, useNavigate, useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import {
+  useParams,
+  Link,
+  Outlet,
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
 import NavBar from "../components/NavBar/NavBar";
 import axios from "axios";
 import RCM_FilmList from "../components/RCM_FilmList/RCM_FilmList";
@@ -10,18 +16,18 @@ const user_id = localStorage.getItem("user_id");
 const FilmPage = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const location = useLocation(); 
+  const location = useLocation();
   const [film, setFilm] = useState(null);
   const [rate, setRate] = useState(0);
   const [ratePermit, setRatePermit] = useState(false);
-  const [rcmFilm, setRcmFilm] = useState([])
+  const [rcmFilm, setRcmFilm] = useState([]);
   let url = `http://localhost:8000/movie/retrieve/${id}`;
 
   useEffect(() => {
     // console.log(location.pathname)
-    const lote = location.pathname.split("/")[2]
-    console.log(lote)
-    // const real_id = 
+    const lote = location.pathname.split("/")[2];
+    console.log(lote);
+    // const real_id =
     const getData = async () => {
       try {
         const film_res = await axios.get(url, {
@@ -62,19 +68,19 @@ const FilmPage = () => {
 
       try {
         const rcm_res = await axios.get(
-        `http://localhost:8000/movie/recommender/content/${lote}`,
-        {
-          headers: {
-            Authorization: `Bearer ${access_token}`,
-          },
-        });
+          `http://localhost:8000/movie/recommender/content/${lote}`,
+          {
+            headers: {
+              Authorization: `Bearer ${access_token}`,
+            },
+          }
+        );
         console.log(rcm_res.data);
         setRcmFilm(rcm_res.data);
       } catch (error) {
         console.log("error to get RCM film.......");
         console.log(error.message);
       }
-
     };
     getData();
   }, []);
@@ -120,14 +126,13 @@ const FilmPage = () => {
     }
   };
 
-  const handleFilmClick  = (id) => {
-
-    navigate(`/home/${id}`)
-    window.location.reload()
-  }
+  const handleFilmClick = (id) => {
+    navigate(`/home/${id}`);
+    window.location.reload();
+  };
 
   const rating_stars = [];
-  for (let i = 1; i <= 10; i++) {
+  for (let i = 1; i <= 5; i++) {
     rating_stars.push(
       <button key={i}>
         <svg
@@ -157,10 +162,13 @@ const FilmPage = () => {
           <div className=" flex my-4 w-5/6 md:w-full font-sans font-bold text-left mx-4 text-5xl">
             {film.title}
           </div>
+          <div className=" flex my-4 w-5/6 md:w-full font-sans text-left mx-4 text-2xl">
+            Genres: {film.genres.replaceAll("|", ", ")}
+          </div>
           <div className="w-4/5 mx-auto md:h-4/6">
             <iframe
-              width='100%'
-              height='920'
+              width="100%"
+              height="920"
               src={film.trailer}
               frameBorder="0"
               allowFullScreen
@@ -170,7 +178,7 @@ const FilmPage = () => {
           <div className="flex my-4 mx-4">
             {rating_stars}
             {rate > 0 ? (
-              <p className="mx-4 my-1 text-4xl font-semibold">{rate}/10</p>
+              <p className="mx-4 my-1 text-4xl font-semibold">{rate}/5</p>
             ) : (
               <p />
             )}
@@ -188,20 +196,20 @@ const FilmPage = () => {
               <div />
             )}
           </div> */}
-           <p className="mx-4 my-1 text-4xl font-semibold">The films that you may like</p>
+          <p className="mx-4 my-1 text-4xl font-semibold">
+            The films that you may like
+          </p>
           <div className="grid grid-cols-2 md:grid-cols-5 gap-6 mb-12 mx-16">
-
-          {rcmFilm.map((film) => (
-            <div key={film.id}>
-              
+            {rcmFilm.map((film) => (
+              <div key={film.id}>
                 <div onClick={() => handleFilmClick(film.id)}>
                   <FilmItem filmProps={film} key={film.id} />
                 </div>
-                
-              {/* </Link> */}
-            </div>
-          ))}
-        </div>
+
+                {/* </Link> */}
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </div>
